@@ -16,7 +16,7 @@ body{
 .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:36px;align-items:start}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:0 1px 0 #fff inset,0 20px 40px -30px rgba(20,33,61,.35)}
 fieldset{border:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:26px}
-legend{font:700 18px "Bricolage Grotesque",sans-serif;margin-bottom:14px;padding:0;float:left;width:100%}
+legend{font:700 18px "Bricolage Grotesque",sans-serif;margin-bottom:14px;padding:0}
 fieldset>*{min-width:0}
 label,.seg-wrap>span{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500;color:var(--muted)}
 .wide{grid-column:1/-1}
@@ -55,7 +55,8 @@ button.loading .spin{display:inline-block}
 .result[data-state=high]{border-color:#efb6bd;background:linear-gradient(#fdf3f4,#fff 60%)}
 .dial{width:100%;max-width:320px;overflow:visible}
 .dial .track{fill:none;stroke:#e6ebf3;stroke-width:16;stroke-linecap:round}
-.dial .fill{fill:none;stroke:url(#arc);stroke-width:16;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+.dial .fill{opacity:0;fill:none;stroke:url(#arc);stroke-width:16;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+#result:not([data-state=idle]) .fill{opacity:1}
 #thr{transform-origin:120px 130px;transform:rotate(-90deg);transition:transform .8s cubic-bezier(.2,.8,.2,1) .2s}
 #thr line{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
 #needle{transform-origin:120px 130px;transform:rotate(-90deg);transition:transform 1.4s cubic-bezier(.34,1.3,.5,1)}
