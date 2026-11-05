@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan risk check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <h1>Will this loan be repaid?</h1>
+      <p>Enter the applicant's details. The model estimates the chance of default and compares it with the approval threshold.</p>
+    </header>
+
+    <div class="grid">
+      <form id="form" class="panel" novalidate>
+        <fieldset>
+          <legend>Applicant</legend>
+          <label>Age
+            <input type="number" name="person_age" min="18" max="100" value="28" required>
+          </label>
+          <label>Annual income (₹ / $)
+            <input type="number" name="person_income" min="1" step="any" value="60000" required>
+          </label>
+          <label>Employment length (years)
+            <input type="number" name="person_emp_length" min="0" step="any" value="4" required>
+          </label>
+          <label>Home ownership
+            <select name="person_home_ownership">
+              <option>RENT</option><option>OWN</option><option>MORTGAGE</option><option>OTHER</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Loan</legend>
+          <label>Loan amount
+            <input type="number" name="loan_amnt" min="1" step="any" value="12000" required>
+          </label>
+          <label>Interest rate (%)
+            <input type="number" name="loan_int_rate" min="0" step="any" value="11.5" required>
+          </label>
+          <label>Purpose
+            <select name="loan_intent">
+              <option value="PERSONAL">Personal</option>
+              <option value="EDUCATION">Education</option>
+              <option value="MEDICAL">Medical</option>
+              <option value="VENTURE">Venture</option>
+              <option value="HOMEIMPROVEMENT">Home improvement</option>
+              <option value="DEBTCONSOLIDATION">Debt consolidation</option>
+            </select>
+          </label>
+          <label>Loan grade
+            <select name="loan_grade">
+              <option>A</option><option selected>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+          <label class="wide">Loan as share of income
+            <div class="calc"><output id="pct">20%</output><span>Calculated from the two amounts above</span></div>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Credit history</legend>
+          <label>History length (years)
+            <input type="number" name="cb_person_cred_hist_length" min="0" value="5" required>
+          </label>
+          <div class="seg-wrap">
+            <span>Defaulted before?</span>
+            <div class="seg" role="radiogroup" aria-label="Defaulted before">
+              <input type="radio" id="d-n" name="cb_person_default_on_file" value="N" checked>
+              <label for="d-n">No</label>
+              <input type="radio" id="d-y" name="cb_person_default_on_file" value="Y">
+              <label for="d-y">Yes</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <button type="submit" id="submit"><span class="label">Assess risk</span><span class="spin" aria-hidden="true"></span></button>
+        <p class="error" id="error" role="alert" hidden></p>
+      </form>
+
+      <section class="panel result" id="result" aria-live="polite" data-state="idle">
+        <svg viewBox="0 0 240 150" class="dial" aria-hidden="true">
+          <defs>
+            <linearGradient id="arc" x1="0" x2="1">
+              <stop offset="0" stop-color="var(--safe)"/>
+              <stop offset=".55" stop-color="var(--warn)"/>
+              <stop offset="1" stop-color="var(--risk)"/>
+            </linearGradient>
+          </defs>
+          <path d="M20 130 A100 100 0 0 1 220 130" class="track"/>
+          <path d="M20 130 A100 100 0 0 1 220 130" class="fill" id="fill" pathLength="100"/>
+          <g id="thr"><line x1="120" y1="22" x2="120" y2="38"/></g>
+          <g id="needle"><line x1="120" y1="130" x2="120" y2="40"/><circle cx="120" cy="130" r="7"/></g>
+        </svg>
+        <div class="readout">
+          <div class="pct"><span id="prob">–</span><small>%</small></div>
+          <div class="verdict" id="verdict">Waiting for details</div>
+        </div>
+        <p class="note" id="note">Fill in the form and choose <b>Assess risk</b>. The tick on the dial marks the model's cut-off.</p>
+        <dl class="facts" id="facts" hidden>
+          <div><dt>Chance of default</dt><dd id="f-prob"></dd></div>
+          <div><dt>Approval cut-off</dt><dd id="f-thr"></dd></div>
+          <div><dt>Gap to cut-off</dt><dd id="f-gap"></dd></div>
+        </dl>
+      </section>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
